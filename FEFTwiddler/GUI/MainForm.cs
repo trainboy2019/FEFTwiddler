@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -46,6 +46,7 @@ namespace FEFTwiddler.GUI
         private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openFileDialog1.FileName = "";
+            openFileDialog1.Filter = "'Chapter' save|*";
 
             var startupPath = Config.StartupPath;
             if (startupPath == "" || !Directory.Exists(startupPath)) startupPath = Application.StartupPath;
@@ -212,7 +213,8 @@ namespace FEFTwiddler.GUI
             try { accessories1.LoadCharacter(_selectedCharacter); }
             catch (Exception) { message += Environment.NewLine + "Error loading Accessories data"; }
 
-            hairColor1.LoadCharacter(_selectedCharacter);
+            try { hairColor1.LoadCharacter(_selectedCharacter); }
+            catch (Exception) { message += Environment.NewLine + "Error loading Hair Color data"; }
 
             try { weaponExperience1.LoadCharacter(_selectedCharacter); }
             catch (Exception) { message += Environment.NewLine + "Error loading Weapon Experience data"; }
@@ -241,7 +243,6 @@ namespace FEFTwiddler.GUI
 
         private void btnOpenHexEditor_Click(object sender, EventArgs e)
         {
-            
             var hex = new GUI.UnitViewer.HexEditor(_selectedCharacter);
             hex.ShowDialog();
             LoadCharacter(_selectedCharacter);
@@ -249,24 +250,31 @@ namespace FEFTwiddler.GUI
 
         #endregion
 
-        private void megacheatsMain1_Load(object sender, EventArgs e)
+        private void decompressFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            openFileDialog1.FileName = "";
+            openFileDialog1.Filter = "'Chapter' or 'Global' save|*";
 
-        }
+            var startupPath = Config.StartupPath;
+            if (startupPath == "" || !Directory.Exists(startupPath)) startupPath = Application.StartupPath;
+            openFileDialog1.InitialDirectory = startupPath;
 
-        private void levelAndExperience1_Load(object sender, EventArgs e)
-        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                Config.StartupPath = Path.GetDirectoryName(openFileDialog1.FileName);
 
-        }
+                var saveFile = Model.SaveFile.FromPath(openFileDialog1.FileName);
 
-        private void lblAvatarName_Click(object sender, EventArgs e)
-        {
+                if (saveFile.Type != Enums.SaveFileType.Chapter && saveFile.Type != Enums.SaveFileType.Global)
+                {
+                    MessageBox.Show("This type of save is not supported yet. Only 'Chapter' and 'Global' saves are supported right now.");
+                    return;
+                }
 
-        }
+                saveFile.Decompress();
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
+                MessageBox.Show("Done! Decompressed save written to the original filename but with _dec on the end.");
+            }
         }
     }
 }
