@@ -99,7 +99,7 @@
             this.btn1Boots.Name = "btn1Boots";
             this.btn1Boots.Size = new System.Drawing.Size(123, 95);
             this.btn1Boots.TabIndex = 14;
-            this.btn1Boots.Text = "Just 1 Boots";
+            this.btn1Boots.Text = "Just 1 Boot";
             this.btn1Boots.UseVisualStyleBackColor = true;
             this.btn1Boots.Click += new System.EventHandler(this.btn1Boots_Click);
             // 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using FEFTwiddler.Enums;
 using FEFTwiddler.Extensions;
@@ -146,11 +146,24 @@ namespace FEFTwiddler.Model
         private byte[] _rawBlock1;
         public byte[] RawBlock1
         {
-            get { return _rawBlock1; }
+            get
+            {
+                var blah = (_rawBlock1.Take(0x1F))
+                    .Concat(_gainedStats.Raw)
+                    .Concat(_statueBonusStats.Raw)
+                    .Concat(_rawBlock1.Skip(0x2F).Take(0x08))
+                    .Concat(_extraGainedStats.Raw)
+                    .Concat(_rawBlock1.Skip(0x3F))
+                    .ToArray();
+                return blah;
+            }
             set
             {
                 if (value.Length != RawBlock1Length) throw new ArgumentException("Character block 1 must be " + RawBlock1Length + " bytes in length");
                 _rawBlock1 = value;
+                _gainedStats = new Stat(_rawBlock1.Skip(0x1F).Take(0x08).ToArray());
+                _statueBonusStats = new Stat(_rawBlock1.Skip(0x27).Take(0x08).ToArray());
+                _extraGainedStats = new Stat(_rawBlock1.Skip(0x37).Take(0x08).ToArray());
             }
         }
 
@@ -376,93 +389,30 @@ namespace FEFTwiddler.Model
         // They even seem random on new files (no chapters played, not even prologue)
         // It's entirely possible this is RNG-related, to preserve random numbers after a save to mitigate mid-battle save scumming
 
+        // 0x1F through 0x26
+        private Stat _gainedStats;
         public Stat GainedStats
         {
-            get
-            {
-                return new Stat
-                {
-                    HP = (sbyte)_rawBlock1[0x1F],
-                    Str = (sbyte)_rawBlock1[0x20],
-                    Mag = (sbyte)_rawBlock1[0x21],
-                    Skl = (sbyte)_rawBlock1[0x22],
-                    Spd = (sbyte)_rawBlock1[0x23],
-                    Lck = (sbyte)_rawBlock1[0x24],
-                    Def = (sbyte)_rawBlock1[0x25],
-                    Res = (sbyte)_rawBlock1[0x26]
-                };
-            }
-            set
-            {
-                _rawBlock1[0x1F] = (byte)value.HP;
-                _rawBlock1[0x20] = (byte)value.Str;
-                _rawBlock1[0x21] = (byte)value.Mag;
-                _rawBlock1[0x22] = (byte)value.Skl;
-                _rawBlock1[0x23] = (byte)value.Spd;
-                _rawBlock1[0x24] = (byte)value.Lck;
-                _rawBlock1[0x25] = (byte)value.Def;
-                _rawBlock1[0x26] = (byte)value.Res;
-            }
+            get { return _gainedStats; }
+            set { _gainedStats = value; }
         }
 
+        // 0x27 through 0x2E
+        private Stat _statueBonusStats;
         public Stat StatueBonusStats
         {
-            get
-            {
-                return new Stat
-                {
-                    HP = (sbyte)_rawBlock1[0x27],
-                    Str = (sbyte)_rawBlock1[0x28],
-                    Mag = (sbyte)_rawBlock1[0x29],
-                    Skl = (sbyte)_rawBlock1[0x2A],
-                    Spd = (sbyte)_rawBlock1[0x2B],
-                    Lck = (sbyte)_rawBlock1[0x2C],
-                    Def = (sbyte)_rawBlock1[0x2D],
-                    Res = (sbyte)_rawBlock1[0x2E]
-                };
-            }
-            set
-            {
-                _rawBlock1[0x27] = (byte)value.HP;
-                _rawBlock1[0x28] = (byte)value.Str;
-                _rawBlock1[0x29] = (byte)value.Mag;
-                _rawBlock1[0x2A] = (byte)value.Skl;
-                _rawBlock1[0x2B] = (byte)value.Spd;
-                _rawBlock1[0x2C] = (byte)value.Lck;
-                _rawBlock1[0x2D] = (byte)value.Def;
-                _rawBlock1[0x2E] = (byte)value.Res;
-            }
+            get { return _statueBonusStats; }
+            set { _statueBonusStats = value; }
         }
 
         // Eight unknown bytes (0x2F through 0x36)
 
+        // 0x37 through 0x3E
+        private Stat _extraGainedStats;
         public Stat ExtraGainedStats
         {
-            get
-            {
-                return new Stat
-                {
-                    HP = (sbyte)_rawBlock1[0x37],
-                    Str = (sbyte)_rawBlock1[0x38],
-                    Mag = (sbyte)_rawBlock1[0x39],
-                    Skl = (sbyte)_rawBlock1[0x3A],
-                    Spd = (sbyte)_rawBlock1[0x3B],
-                    Lck = (sbyte)_rawBlock1[0x3C],
-                    Def = (sbyte)_rawBlock1[0x3D],
-                    Res = (sbyte)_rawBlock1[0x3E]
-                };
-            }
-            set
-            {
-                _rawBlock1[0x37] = (byte)value.HP;
-                _rawBlock1[0x38] = (byte)value.Str;
-                _rawBlock1[0x39] = (byte)value.Mag;
-                _rawBlock1[0x3A] = (byte)value.Skl;
-                _rawBlock1[0x3B] = (byte)value.Spd;
-                _rawBlock1[0x3C] = (byte)value.Lck;
-                _rawBlock1[0x3D] = (byte)value.Def;
-                _rawBlock1[0x3E] = (byte)value.Res;
-            }
+            get { return _extraGainedStats; }
+            set { _extraGainedStats = value; }
         }
 
         public byte WeaponExperience_Sword
@@ -807,27 +757,27 @@ namespace FEFTwiddler.Model
 
         // Four unknown bytes (0x01 through 0x04)
 
-        public Enums.Headwear Headwear
+        public Enums.Accessory Headwear
         {
-            get { return (Enums.Headwear)_rawBlock3[0x05]; }
+            get { return (Enums.Accessory)_rawBlock3[0x05]; }
             set { _rawBlock3[0x05] = (byte)value; }
         }
 
-        public Enums.Facewear Facewear
+        public Enums.Accessory Facewear
         {
-            get { return (Enums.Facewear)_rawBlock3[0x06]; }
+            get { return (Enums.Accessory)_rawBlock3[0x06]; }
             set { _rawBlock3[0x06] = (byte)value; }
         }
 
-        public Enums.Armwear Armwear
+        public Enums.Accessory Armwear
         {
-            get { return (Enums.Armwear)_rawBlock3[0x07]; }
+            get { return (Enums.Accessory)_rawBlock3[0x07]; }
             set { _rawBlock3[0x07] = (byte)value; }
         }
 
-        public Enums.Underwear Underwear
+        public Enums.Accessory Underwear
         {
-            get { return (Enums.Underwear)_rawBlock3[0x08]; }
+            get { return (Enums.Accessory)_rawBlock3[0x08]; }
             set { _rawBlock3[0x08] = (byte)value; }
         }
 
@@ -910,19 +860,18 @@ namespace FEFTwiddler.Model
         }
 
         public byte[] AvatarHairColor
-         {
-             get
-             {
-                 try { VerifyEndBlockSizeIfCorrin(); } catch (MissingFieldException) { return null; }
-                 return _rawEndBlock.Skip(0x22).Take(0x04).ToArray();
-             }
-             set
-             {
-                 if (value.Length != 0x04) throw new ArgumentException("AvatarHairColor must be 0x04 bytes long");
-                 Array.Copy(value, 0x00, _rawEndBlock, 0x22, 0x04);
-             }
-         }
- 
+        {
+            get
+            {
+                try { VerifyEndBlockSizeIfCorrin(); } catch (MissingFieldException) { return null; }
+                return _rawEndBlock.Skip(0x22).Take(0x04).ToArray();
+            }
+            set
+            {
+                if (value.Length != 0x04) throw new ArgumentException("AvatarHairColor must be 0x04 bytes long");
+                Array.Copy(value, 0x00, _rawEndBlock, 0x22, 0x04);
+            }
+        }
 
         private void VerifyEndBlockSizeIfCorrin()
         {
@@ -1074,8 +1023,7 @@ namespace FEFTwiddler.Model
         public static byte WeaponExperienceForRankA = 161;
         public static byte WeaponExperienceForRankS = 251;
         public static byte MaxWeaponExperience = 0xFB;
-        public static byte MaxBoots = 0x10;
-       // public static bool DragonVeinAll = true;
+        public static byte MaxBoots = 0x20;
 
         /// <summary>
         /// Get this character's max level, unmodified by eternal seals

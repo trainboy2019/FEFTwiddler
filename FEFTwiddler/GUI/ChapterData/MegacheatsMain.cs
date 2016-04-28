@@ -194,8 +194,8 @@ namespace FEFTwiddler.GUI.ChapterData
             randomizer.RandomizeClasses();
             randomizer.EquipWeapons();
             timeMachine.LevelUpAllUnits();
-            //timeMachine.ReturnToChapter7();
-            timeMachine.ReturnToPrologue();
+            timeMachine.ReturnToChapter7();
+            //timeMachine.ReturnToPrologue();
 
             MainForm.GetFromHere(this).LoadUnitViewer();
 

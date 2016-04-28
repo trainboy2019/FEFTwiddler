@@ -10,6 +10,7 @@ namespace FEFTwiddler.GUI
     {
         private Model.SaveFile _saveFile;
         private Model.ChapterSave _chapterSave;
+        private Model.GlobalSave _globalSave;
         private Model.Character _selectedCharacter;
         private Controls.Blanket _unitViewerBlanket;
 
@@ -58,9 +59,9 @@ namespace FEFTwiddler.GUI
 
                 var saveFile = Model.SaveFile.FromPath(openFileDialog1.FileName);
 
-                if (saveFile.Type != Enums.SaveFileType.Chapter)
+                if (saveFile.Type != Enums.SaveFileType.Chapter && saveFile.Type != Enums.SaveFileType.Global)
                 {
-                    MessageBox.Show("This type of save is not supported yet. Only 'Chapter' saves are supported right now.");
+                    MessageBox.Show("This type of save is not supported yet. Only 'Chapter' and 'Global' saves are supported right now.");
                     return;
                 }
                 else
@@ -70,10 +71,37 @@ namespace FEFTwiddler.GUI
 
                 UpdateTitleBar(openFileDialog1.FileName);
 
-                _chapterSave = Model.ChapterSave.FromSaveFile(_saveFile);
+                switch (_saveFile.Type)
+                {
+                    case Enums.SaveFileType.Chapter:
+                        _chapterSave = Model.ChapterSave.FromSaveFile(_saveFile);
+                        _globalSave = null;
 
-                LoadChapterData();
-                LoadUnitViewer();
+                        LoadChapterData();
+                        LoadUnitViewer();
+
+                        tabChapterData.Enabled = true;
+                        tabUnitViewer.Enabled = true;
+                        tabMegacheats.Enabled = true;
+                        tabNewGamePlus.Enabled = true;
+                        tabGlobalData.Enabled = false;
+
+                        break;
+                    case Enums.SaveFileType.Global:
+                        _globalSave = Model.GlobalSave.FromSaveFile(_saveFile);
+                        _chapterSave = null;
+
+                        LoadGlobalData();
+
+                        tabChapterData.Enabled = false;
+                        tabUnitViewer.Enabled = false;
+                        tabMegacheats.Enabled = false;
+                        tabNewGamePlus.Enabled = false;
+                        tabGlobalData.Enabled = true;
+
+                        break;
+                    default: break;
+                }
 
                 tabControl1.Enabled = true;
             }
@@ -93,13 +121,32 @@ namespace FEFTwiddler.GUI
 
         private void saveFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_chapterSave == null)
+            switch (_saveFile.Type)
             {
-                MessageBox.Show("No file is loaded");
-                return;
-            }
+                case Enums.SaveFileType.Chapter:
+                    if (_chapterSave == null)
+                    {
+                        MessageBox.Show("No file is loaded");
+                        return;
+                    }
 
-            _chapterSave.Write();
+                    _chapterSave.Write();
+
+                    break;
+                case Enums.SaveFileType.Global:
+                    if (_globalSave == null)
+                    {
+                        MessageBox.Show("No file is loaded");
+                        return;
+                    }
+
+                    _globalSave.Write();
+
+                    break;
+                default:
+                    MessageBox.Show("No file is loaded");
+                    return;
+            }
 
             MessageBox.Show("File saved. A backup was made in the source directory as well.");
         }
@@ -167,6 +214,8 @@ namespace FEFTwiddler.GUI
 
         private void LoadCharacter(Model.Character character)
         {
+            if (character == null) return;
+
             var message = "";
 
             if (Enum.IsDefined(typeof(Enums.Character), character.CharacterID))
@@ -250,6 +299,15 @@ namespace FEFTwiddler.GUI
 
         #endregion
 
+        #region Global Data
+
+        private void LoadGlobalData()
+        {
+            globalDataMain1.LoadGlobalSave(_globalSave);
+        }
+
+        #endregion
+
         private void decompressFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openFileDialog1.FileName = "";
@@ -274,6 +332,33 @@ namespace FEFTwiddler.GUI
                 saveFile.Decompress();
 
                 MessageBox.Show("Done! Decompressed save written to the original filename but with _dec on the end.");
+            }
+        }
+
+        private void compressFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.FileName = "";
+            openFileDialog1.Filter = "'Chapter' or 'Global' save|*";
+
+            var startupPath = Config.StartupPath;
+            if (startupPath == "" || !Directory.Exists(startupPath)) startupPath = Application.StartupPath;
+            openFileDialog1.InitialDirectory = startupPath;
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                Config.StartupPath = Path.GetDirectoryName(openFileDialog1.FileName);
+
+                var saveFile = Model.SaveFile.FromPath(openFileDialog1.FileName);
+
+                if (saveFile.Type != Enums.SaveFileType.Chapter && saveFile.Type != Enums.SaveFileType.Global)
+                {
+                    MessageBox.Show("This type of save is not supported yet. Only 'Chapter' and 'Global' saves are supported right now.");
+                    return;
+                }
+
+                saveFile.Compress();
+
+                MessageBox.Show("Done! Compressed save written to the original filename, with _dec removed if applicable.");
             }
         }
     }

@@ -51,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="Data\Accessory.cs" />
+    <Compile Include="Data\AccessoryDatabase.cs" />
     <Compile Include="Data\BaseDatabase.cs" />
     <Compile Include="Data\Building.cs" />
     <Compile Include="Data\BuildingDatabase.cs" />
@@ -68,7 +70,8 @@
     <Compile Include="Data\SkillDatabase.cs" />
     <Compile Include="Data\Stat.cs" />
     <Compile Include="Data\StatDatabase.cs" />
-    <Compile Include="Enums\Armwear.cs" />
+    <Compile Include="Enums\Accessory.cs" />
+    <Compile Include="Enums\AccessoryType.cs" />
     <Compile Include="Enums\Battlefield.cs" />
     <Compile Include="Enums\BattlefieldStatus.cs" />
     <Compile Include="Enums\Building.cs" />
@@ -78,9 +81,7 @@
     <Compile Include="Enums\Class.cs" />
     <Compile Include="Enums\ItemSubTypes.cs" />
     <Compile Include="Enums\Difficulty.cs" />
-    <Compile Include="Enums\Facewear.cs" />
     <Compile Include="Enums\Game.cs" />
-    <Compile Include="Enums\Headwear.cs" />
     <Compile Include="Enums\Item.cs" />
     <Compile Include="Enums\ItemType.cs" />
     <Compile Include="Enums\Language.cs" />
@@ -88,7 +89,6 @@
     <Compile Include="Enums\SaveFileType.cs" />
     <Compile Include="Enums\Skill.cs" />
     <Compile Include="Enums\Stat.cs" />
-    <Compile Include="Enums\Underwear.cs" />
     <Compile Include="Enums\WeaponRank.cs" />
     <Compile Include="Extensions\BinaryReaderExtensions.cs" />
     <Compile Include="Extensions\BitmapExtensions.cs" />
@@ -134,6 +134,12 @@
     <Compile Include="GUI\Controls\Blanket.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GUI\Controls\ColorPicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\ColorPicker.Designer.cs">
+      <DependentUpon>ColorPicker.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Controls\HexBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -142,6 +148,18 @@
     </Compile>
     <Compile Include="GUI\Controls\HexBoxMaskedTextBox.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\GlobalData\GlobalDataMain.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\GlobalData\GlobalDataMain.Designer.cs">
+      <DependentUpon>GlobalDataMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\GlobalData\HairColors.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\GlobalData\HairColors.Designer.cs">
+      <DependentUpon>HairColors.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\MainForm.cs">
       <SubType>Form</SubType>
@@ -264,7 +282,15 @@
     <Compile Include="Model\ConvoyItem.cs" />
     <Compile Include="Model\GlobalSave.cs" />
     <Compile Include="Model\GlobalSaveRegions\CompressionRegion.cs" />
-    <Compile Include="Model\GlobalSaveRegions\Region2.cs" />
+    <Compile Include="GUI\GlobalData\GlobalDataMain.Designer.cs">
+      <DependentUpon>GlobalDataMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\GlobalData\HairColors.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\GlobalData\HairColors.Designer.cs">
+      <DependentUpon>HairColors.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\InventoryItem.cs" />
     <Compile Include="Model\ISave.cs" />
     <Compile Include="Model\Item.cs" />
@@ -296,8 +322,18 @@
     <EmbeddedResource Include="GUI\ChapterData\Megacheats\Skills.resx">
       <DependentUpon>Skills.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\ColorPicker.resx">
+      <DependentUpon>ColorPicker.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\HexBox.resx">
       <DependentUpon>HexBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\GlobalData\GlobalDataMain.resx">
+      <DependentUpon>GlobalDataMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\GlobalData\HairColors.resx">
+      <DependentUpon>HairColors.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\MainForm.af.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -378,6 +414,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
+    <Content Include="Resources\Data\Accessories.xml" />
     <Content Include="Resources\Data\Buildings.xml" />
     <Content Include="Resources\Data\Characters.xml" />
     <Content Include="Resources\Data\Classes.xml" />

@@ -25,6 +25,9 @@ namespace FEFTwiddler.Model.NewGamePlus
             _chapterSave.UnitRegion.Units.RemoveAll((x) => !Data.Database.Characters.GetByID(x.CharacterID).IsCorrin);
         }
 
+
+        
+
         public void InsertCharacters()
         {
             var characterDatas = Data.Database.Characters.GetAllNamedPlayable().Where((x) => !x.IsCorrin && x.CharacterID < Enums.Character.Kana_M);

@@ -33,16 +33,18 @@ namespace FEFTwiddler.GUI
             this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.decompressorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.decompressFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabChapterData = new System.Windows.Forms.TabPage();
             this.difficulty1 = new FEFTwiddler.GUI.ChapterData.Difficulty();
             this.btnChapterHistory = new System.Windows.Forms.Button();
             this.goldAndPoints1 = new FEFTwiddler.GUI.ChapterData.GoldAndPoints();
             this.materials1 = new FEFTwiddler.GUI.ChapterData.Materials();
             this.lblAvatarName = new System.Windows.Forms.Label();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabUnitViewer = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.lstDead = new System.Windows.Forms.ListBox();
             this.pnlUnitView = new System.Windows.Forms.Panel();
@@ -61,19 +63,21 @@ namespace FEFTwiddler.GUI
             this.skills1 = new FEFTwiddler.GUI.UnitViewer.Skills();
             this.lblName = new System.Windows.Forms.Label();
             this.lstLiving = new System.Windows.Forms.ListBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabMegacheats = new System.Windows.Forms.TabPage();
             this.megacheatsMain1 = new FEFTwiddler.GUI.ChapterData.MegacheatsMain();
             this.tabNewGamePlus = new System.Windows.Forms.TabPage();
+            this.tabGlobalData = new System.Windows.Forms.TabPage();
+            this.globalDataMain1 = new FEFTwiddler.GUI.GlobalData.GlobalDataMain();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.decompressorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.decompressFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.compressFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tabChapterData.SuspendLayout();
+            this.tabUnitViewer.SuspendLayout();
             this.pnlUnitView.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.tabMegacheats.SuspendLayout();
+            this.tabGlobalData.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -104,6 +108,20 @@ namespace FEFTwiddler.GUI
             resources.ApplyResources(this.saveFileToolStripMenuItem, "saveFileToolStripMenuItem");
             this.saveFileToolStripMenuItem.Click += new System.EventHandler(this.saveFileToolStripMenuItem_Click);
             // 
+            // decompressorToolStripMenuItem
+            // 
+            this.decompressorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.decompressFileToolStripMenuItem,
+            this.compressFileToolStripMenuItem});
+            this.decompressorToolStripMenuItem.Name = "decompressorToolStripMenuItem";
+            resources.ApplyResources(this.decompressorToolStripMenuItem, "decompressorToolStripMenuItem");
+            // 
+            // decompressFileToolStripMenuItem
+            // 
+            this.decompressFileToolStripMenuItem.Name = "decompressFileToolStripMenuItem";
+            resources.ApplyResources(this.decompressFileToolStripMenuItem, "decompressFileToolStripMenuItem");
+            this.decompressFileToolStripMenuItem.Click += new System.EventHandler(this.decompressFileToolStripMenuItem_Click);
+            // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -111,24 +129,25 @@ namespace FEFTwiddler.GUI
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabChapterData);
+            this.tabControl1.Controls.Add(this.tabUnitViewer);
+            this.tabControl1.Controls.Add(this.tabMegacheats);
             this.tabControl1.Controls.Add(this.tabNewGamePlus);
+            this.tabControl1.Controls.Add(this.tabGlobalData);
             resources.ApplyResources(this.tabControl1, "tabControl1");
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             // 
-            // tabPage3
+            // tabChapterData
             // 
-            this.tabPage3.Controls.Add(this.difficulty1);
-            this.tabPage3.Controls.Add(this.btnChapterHistory);
-            this.tabPage3.Controls.Add(this.goldAndPoints1);
-            this.tabPage3.Controls.Add(this.materials1);
-            this.tabPage3.Controls.Add(this.lblAvatarName);
-            resources.ApplyResources(this.tabPage3, "tabPage3");
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.tabChapterData.Controls.Add(this.difficulty1);
+            this.tabChapterData.Controls.Add(this.btnChapterHistory);
+            this.tabChapterData.Controls.Add(this.goldAndPoints1);
+            this.tabChapterData.Controls.Add(this.materials1);
+            this.tabChapterData.Controls.Add(this.lblAvatarName);
+            resources.ApplyResources(this.tabChapterData, "tabChapterData");
+            this.tabChapterData.Name = "tabChapterData";
+            this.tabChapterData.UseVisualStyleBackColor = true;
             // 
             // difficulty1
             // 
@@ -157,16 +176,16 @@ namespace FEFTwiddler.GUI
             resources.ApplyResources(this.lblAvatarName, "lblAvatarName");
             this.lblAvatarName.Name = "lblAvatarName";
             // 
-            // tabPage1
+            // tabUnitViewer
             // 
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Controls.Add(this.lstDead);
-            this.tabPage1.Controls.Add(this.pnlUnitView);
-            this.tabPage1.Controls.Add(this.lstLiving);
-            resources.ApplyResources(this.tabPage1, "tabPage1");
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            this.tabPage1.Enter += new System.EventHandler(this.tabPage1_Enter);
+            this.tabUnitViewer.Controls.Add(this.label1);
+            this.tabUnitViewer.Controls.Add(this.lstDead);
+            this.tabUnitViewer.Controls.Add(this.pnlUnitView);
+            this.tabUnitViewer.Controls.Add(this.lstLiving);
+            resources.ApplyResources(this.tabUnitViewer, "tabUnitViewer");
+            this.tabUnitViewer.Name = "tabUnitViewer";
+            this.tabUnitViewer.UseVisualStyleBackColor = true;
+            this.tabUnitViewer.Enter += new System.EventHandler(this.tabPage1_Enter);
             // 
             // label1
             // 
@@ -280,12 +299,12 @@ namespace FEFTwiddler.GUI
             this.lstLiving.Name = "lstLiving";
             this.lstLiving.SelectedIndexChanged += new System.EventHandler(this.SelectLivingCharacter);
             // 
-            // tabPage2
+            // tabMegacheats
             // 
-            this.tabPage2.Controls.Add(this.megacheatsMain1);
-            resources.ApplyResources(this.tabPage2, "tabPage2");
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabMegacheats.Controls.Add(this.megacheatsMain1);
+            resources.ApplyResources(this.tabMegacheats, "tabMegacheats");
+            this.tabMegacheats.Name = "tabMegacheats";
+            this.tabMegacheats.UseVisualStyleBackColor = true;
             // 
             // megacheatsMain1
             // 
@@ -298,23 +317,28 @@ namespace FEFTwiddler.GUI
             this.tabNewGamePlus.Name = "tabNewGamePlus";
             this.tabNewGamePlus.UseVisualStyleBackColor = true;
             // 
+            // tabGlobalData
+            // 
+            this.tabGlobalData.Controls.Add(this.globalDataMain1);
+            resources.ApplyResources(this.tabGlobalData, "tabGlobalData");
+            this.tabGlobalData.Name = "tabGlobalData";
+            this.tabGlobalData.UseVisualStyleBackColor = true;
+            // 
+            // globalDataMain1
+            // 
+            resources.ApplyResources(this.globalDataMain1, "globalDataMain1");
+            this.globalDataMain1.Name = "globalDataMain1";
+            // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             resources.ApplyResources(this.saveToolStripMenuItem, "saveToolStripMenuItem");
             // 
-            // decompressorToolStripMenuItem
+            // compressFileToolStripMenuItem
             // 
-            this.decompressorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.decompressFileToolStripMenuItem});
-            this.decompressorToolStripMenuItem.Name = "decompressorToolStripMenuItem";
-            resources.ApplyResources(this.decompressorToolStripMenuItem, "decompressorToolStripMenuItem");
-            // 
-            // decompressFileToolStripMenuItem
-            // 
-            this.decompressFileToolStripMenuItem.Name = "decompressFileToolStripMenuItem";
-            resources.ApplyResources(this.decompressFileToolStripMenuItem, "decompressFileToolStripMenuItem");
-            this.decompressFileToolStripMenuItem.Click += new System.EventHandler(this.decompressFileToolStripMenuItem_Click);
+            this.compressFileToolStripMenuItem.Name = "compressFileToolStripMenuItem";
+            resources.ApplyResources(this.compressFileToolStripMenuItem, "compressFileToolStripMenuItem");
+            this.compressFileToolStripMenuItem.Click += new System.EventHandler(this.compressFileToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -329,14 +353,15 @@ namespace FEFTwiddler.GUI
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.tabChapterData.ResumeLayout(false);
+            this.tabChapterData.PerformLayout();
+            this.tabUnitViewer.ResumeLayout(false);
+            this.tabUnitViewer.PerformLayout();
             this.pnlUnitView.ResumeLayout(false);
             this.pnlUnitView.PerformLayout();
             this.groupBox1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
+            this.tabMegacheats.ResumeLayout(false);
+            this.tabGlobalData.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -347,16 +372,16 @@ namespace FEFTwiddler.GUI
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabUnitViewer;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ListBox lstLiving;
         private System.Windows.Forms.Panel pnlUnitView;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem openFileToolStripMenuItem;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabMegacheats;
         private System.Windows.Forms.ToolStripMenuItem saveFileToolStripMenuItem;
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage tabChapterData;
         private System.Windows.Forms.Label lblAvatarName;
         private System.Windows.Forms.GroupBox groupBox1;
         private UnitViewer.Inventory inventory1;
@@ -381,5 +406,9 @@ namespace FEFTwiddler.GUI
         private ChapterData.Difficulty difficulty1;
         private System.Windows.Forms.ToolStripMenuItem decompressorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem decompressFileToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabGlobalData;
+        private GlobalData.GlobalDataMain globalDataMain1;
+        private System.Windows.Forms.ToolStripMenuItem compressFileToolStripMenuItem;
     }
 }
+
